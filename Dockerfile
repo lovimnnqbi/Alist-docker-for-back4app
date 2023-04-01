@@ -1,14 +1,7 @@
-FROM alpine
+FROM xhofe/alist:latest
+LABEL MAINTAINER="i@nn.ci"
+WORKDIR /opt/alist/
 
-COPY ./content /workdir/
+EXPOSE 5244
 
-RUN apk add --no-cache curl runit bash tzdata \
-    && chmod +x /workdir/service/*/run \
-    && sh /workdir/install.sh \
-    && rm /workdir/install.sh \
-    && ln -s /workdir/service/* /etc/service/
-
-ENV PORT=3000
-ENV TZ=UTC
-
-ENTRYPOINT ["runsvdir", "/etc/service"]
+CMD [ "./alist", "server", "--no-prefix" ]
